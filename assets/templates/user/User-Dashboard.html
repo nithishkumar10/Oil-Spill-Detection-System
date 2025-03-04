@@ -1,0 +1,389 @@
+
+{%load static%}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>User Dashboard</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="" name="keywords">
+    <meta content="" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@500;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <!-- Libraries Stylesheet -->
+    <link href="{% static "user/lib/animate/animate.min.css" %}" rel="stylesheet">
+    <link href="{% static "user/lib/owlcarousel/assets/owl.carousel.min.css" %}" rel="stylesheet">
+    <link href="{% static "user/lib/lightbox/css/lightbox.min.css" %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static "user/css/bootstrap.min.css" %}" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="{% static "user/css/style.css" %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Spinner Start -->
+    <div id="spinner"
+        class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-border text-primary" role="status" style="width: 3rem; height: 3rem;"></div>
+    </div>
+    <!-- Spinner End -->
+
+
+    <!-- Topbar Start -->
+    <div class="container-fluid bg-primary text-white d-none d-lg-flex">
+        <div class="container py-3">
+            <div class="d-flex align-items-center">
+                <a href="{% url 'user_dashboard' %}">
+                    <h2 class="text-white fw-bold m-0">Oil Spill System</h2>
+                </a>
+                <div class="ms-auto d-flex align-items-center">
+                    <small class="ms-4"><i class="fa fa-map-marker-alt me-3"></i>Nambur</small>
+                    <small class="ms-4"><i class="fa fa-envelope me-3"></i>info@student.in</small>
+                    <small class="ms-4"><i class="fa fa-phone-alt me-3"></i>+91 99******99</small>
+                    <div class="ms-3 d-flex">
+                        <a class="btn btn-sm-square btn-light text-primary rounded-circle ms-2" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-sm-square btn-light text-primary rounded-circle ms-2" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-sm-square btn-light text-primary rounded-circle ms-2" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid bg-white sticky-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
+                <a href="index.html" class="navbar-brand d-lg-none">
+                    <h1 class="fw-bold m-0">Oil Spill Detection</h1>
+                </a>
+                <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse"
+                    data-bs-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarCollapse">
+                    <div class="navbar-nav">
+                        <a href="{% url 'user_dashboard' %}" class="nav-item nav-link active">User Dashboard</a>
+                        <a href="{% url 'user_profile' %}" class="nav-item nav-link">User Profile</a>
+                        <a href="{% url 'Classification' %}" class="nav-item nav-link">Detection</a>
+                        <a href="{% url 'user_feedback' %}" class="nav-item nav-link">Feedback</a>
+                    </div>
+                    
+                </div>
+                <div class="ms-auto d-none d-lg-block">
+                    <form action="{% url 'user_logout' %}" method="get">
+                        <button type="submit" class="btn btn-primary rounded-pill py-2 px-3">Logout</button>
+                    </form>
+                </div>
+            </nav>
+        </div>
+    </div>
+    
+    </div>
+    <!-- Navbar End -->
+
+
+
+
+
+    <!-- Features Start -->
+    
+    <!-- Features End -->
+
+
+    <!-- About Start -->
+    
+    <!-- About End -->
+
+
+    <!-- Video Modal Start -->
+    <div class="modal modal-video fade" id="videoModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content rounded-0">
+                <div class="modal-header">
+                    <h3 class="modal-title" id="exampleModalLabel">Youtube Video</h3>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <!-- 16:9 aspect ratio -->
+                    <div class="ratio ratio-16x9">
+                        <iframe class="embed-responsive-item" src="" id="video" allowfullscreen
+                            allowscriptaccess="always" allow="autoplay"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <style>
+          /* Style the <hr> tag */
+          hr {
+            border: none;          /* Remove default border */
+            height: 3px;           /* Set the height of the line */
+            background-color: #000000; /* Set the background color (bold effect) */
+            margin-top: 20px;      /* Add some space above */
+            margin-bottom: 20px;   /* Add some space below */
+            position: relative;
+        }
+
+        /* Optional: Add a shadow effect */
+        hr::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: rgba(0, 0, 0, 0.2);  /* Subtle shadow effect */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);  /* Soft shadow */
+        }
+
+        /* Add unique pattern */
+        hr.unique-pattern {
+            background-image: linear-gradient(to right, #000000, #000000, #000000); /* Gradient effect */
+            height: 4px;
+        }
+    </style>
+    <!-- Video Modal End -->
+    <!-- Page Header Start -->
+    <div class="container-fluid page-header py-5 mb-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container text-center py-5">
+            <h1 class="display-2 text-white mb-4 animated slideInDown">Dashboard</h1>
+            <nav aria-label="breadcrumb animated slideInDown">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="#">User-Dashboard</a></li>
+                    <li class="breadcrumb-item text-primary" aria-current="page">Dashboard</li>
+                </ol>
+            </nav>
+        </div>
+    </div>
+
+    <div class="container-xxl py-5">
+        <div class="container">
+            <div class="text-center mx-auto wow fadeInUp" data-wow-delay="0.1s" style="max-width: 800px;">
+                <h1 class="display-8 mb-3">Welcome Back, {{ user_name }}</h1>
+            </div><hr class="unique-pattern">
+            
+            <div class="row g-4">
+                <!-- Loop through prediction results and display them in cards -->
+                {% for prediction in prediction_results%}
+                <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay="0.1s">
+                    <div class="service-item position-relative h-100">
+                        <div class="service-text rounded p-5">
+                      
+                            <h5 class="mb-3">Detection Result {{ forloop.counter }}</h5>
+                            
+                            <!-- Display the prediction result (Oil Spill or Not) -->
+                            <p class="mb-0">
+                                {% if prediction.predicted_class == 1 %}
+                                    <strong>Detection: Oil Spill</strong>
+                                {% else %}
+                                    <strong>Detection: No Oil Spill</strong>
+                                {% endif %}
+                            </p>
+                            
+                            <!-- Display the email and timestamp -->
+                            <p>Date and Time: <i>{{ prediction.timestamp|timesince }} ago..</i></p>
+                            
+                            <!-- Hide the image URL and display a clickable text link -->
+                            <p>
+                                <a href="{{ prediction.image_url }}" target="_blank">View the Image Here</a>
+                            </p>
+                            
+    
+                            <!-- Download Button for PDF -->
+                             <a href="media/{{ prediction.pdf_file }}" download="prediction_result_{{ prediction.id }}.pdf">
+                                <button class="btn btn-success mt-3">Download PDF</button>
+                            </a> 
+    
+                            <!-- Delete Button -->
+                            <form action="{% url 'delete_prediction' prediction.id %}" method="POST" style="display: inline-block;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger mt-3">Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                    <p>No Detections found.</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    
+    
+
+
+
+
+
+
+
+<!-- Service End -->
+    <!-- Project Start -->
+    
+    <!-- Project End -->
+
+
+    <!-- Quote Start -->
+    
+    <!-- Quote Start -->
+
+
+    <!-- Team Start -->
+    
+    <!-- Team End -->
+
+
+    <!-- Testimonial Start -->
+    
+    <!-- Testimonial End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark footer mt-5 py-5 wow fadeIn" data-wow-delay="0.1s">
+        <div class="container py-5">
+            <div class="row g-5">
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Our Office</h4>
+                    <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>VVIT College, Nambur</p>
+                    <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 99******99</p>
+                    <p class="mb-2"><i class="fa fa-envelope me-3"></i>info@example.com</p>
+                    <div class="d-flex pt-3">
+                        <a class="btn btn-square btn-light rounded-circle me-2" href=""><i
+                                class="fab fa-twitter"></i></a>
+                        <a class="btn btn-square btn-light rounded-circle me-2" href=""><i
+                                class="fab fa-facebook-f"></i></a>
+                        <a class="btn btn-square btn-light rounded-circle me-2" href=""><i
+                                class="fab fa-youtube"></i></a>
+                        <a class="btn btn-square btn-light rounded-circle me-2" href=""><i
+                                class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Quick Links</h4>
+                    <a class="btn btn-link" href="{% url 'user_dashboard' %}">User Dashboard</a>
+                    <a class="btn btn-link" href="{% url 'user_profile' %}">User Profile</a>
+                    <a class="btn btn-link" href="{% url 'Classification' %}">Detection</a>
+                    <a class="btn btn-link" href="{% url 'user_feedback' %}">Feedback</a>
+                    
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Business Hours</h4>
+                    <p class="mb-1">Monday - Friday</p>
+                    <h6 class="text-light">09:00 am - 07:00 pm</h6>
+                    <p class="mb-1">Saturday</p>
+                    <h6 class="text-light">09:00 am - 12:00 pm</h6>
+                    <p class="mb-1">Sunday</p>
+                    <h6 class="text-light">Closed</h6>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="text-white mb-4">Oil Spill System</h4>
+                    <p style="text-align: justify;">The Oil Spill Detection System is an advanced technological
+                        solution dedicated to protecting marine environments by enabling accurate and timely detection of oil spills.
+                        Our mission is to leverage cutting-edge technology to mitigate the environmental and economic impact of marine
+                        pollution.</p>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Copyright Start -->
+    <div class="container-fluid copyright bg-dark py-4">
+        <div class="container text-center">
+            
+            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<p class="mb-0">
+    Designed with <a class="fw-semi-bold" href=""><i class="fas fa-heart"></i></a> By <a href="https://student.in">student</a>
+</p>
+        </div>
+    </div>
+    <!-- Copyright End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded-circle back-to-top"><i
+            class="bi bi-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static "user/lib/wow/wow.min.js" %}"></script>
+    <script src="{% static "user/lib/easing/easing.min.js" %}"></script>
+    <script src="{% static "user/lib/waypoints/waypoints.min.js" %}"></script>
+    <script src="{% static "user/lib/owlcarousel/owl.carousel.min.js" %}"></script>
+    <script src="{% static "user/lib/lightbox/js/lightbox.min.js" %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static "user/js/main.js" %}"></script>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    {% if messages %}
+        {% for message in messages %}
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <script>swal({
+                title: "Success!",
+                text: "{{message}}",
+                icon: "success",
+                button: "OK",
+              });
+            </script>
+          
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
+            <script>swal({
+                title: "Warning :)",
+                text: "{{message}}",
+                icon: "warning",
+                button: "OK",
+              
+              });
+            </script>
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}
+            <script>swal({
+                title: "info :)",
+                text: "{{message}}",
+                icon: "info",
+                button: "OK",
+              });
+            </script>
+          {% elif message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+            <script>swal({
+                title: "error :)",
+                text: "{{message}}",
+                icon: "error",
+                button: "OK",
+              });
+            </script>
+          {% endif %}
+        {% endfor %}
+      {% endif %}
+</body>
+
+</html>
