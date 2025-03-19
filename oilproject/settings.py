@@ -81,12 +81,8 @@ WSGI_APPLICATION = 'oilproject.wsgi.application'
 
 DATABASES = {
     'default': {
-    'ENGINE': 'django.db.backends.mysql',
-    'NAME': 'oil',
-	'USER': 'root',
-	'PASSWORD': '',
-	'HOST': 'localhost',
-	'PORT': '3306'
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
@@ -137,8 +133,8 @@ MEDIA_ROOT2 = os.path.join(BASE_DIR)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'humanaibeing@gmail.com'
-EMAIL_HOST_PASSWORD = 'ptujzgmctmfbaxna'
+EMAIL_HOST_USER = 'oilspilldetection973@gmail.com'
+EMAIL_HOST_PASSWORD = 'dbfi muhq izri tgxr'
 EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 

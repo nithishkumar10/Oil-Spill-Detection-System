@@ -13,16 +13,16 @@ class Upload_dataset_model(models.Model):
     class Meta:
         db_table = 'upload_dataset'
 
-# dataset
-class DATASET(models.Model):
-    DS_ID = models.AutoField(primary_key = True)
-    Age = models.IntegerField()
-    PHYSICAL_SCORE = models.FloatField() 
-    TEST_RESULTS = models.IntegerField()
-    Pregnancies = models.IntegerField()
+# # dataset
+# class DATASET(models.Model):
+#     DS_ID = models.AutoField(primary_key = True)
+#     Age = models.IntegerField()
+#     PHYSICAL_SCORE = models.FloatField() 
+#     TEST_RESULTS = models.IntegerField()
+#     Pregnancies = models.IntegerField()
     
-    class Meta:
-        db_table = 'Dataset'
+#     class Meta:
+#         db_table = 'Dataset'
 
 
 

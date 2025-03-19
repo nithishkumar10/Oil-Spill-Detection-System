@@ -15,7 +15,7 @@
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@500;700&display=swap" rel="stylesheet">  
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500&family=Roboto:wght@500;700&display=swap" rel="stylesheet">
 
     <!-- Icon Font Stylesheet -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
@@ -49,9 +49,9 @@
                 <h2 class="text-white fw-bold m-0">Oil Spill System</h2>
             </a>
             <div class="ms-auto d-flex align-items-center">
-                <small class="ms-4"><i class="fa fa-map-marker-alt me-3"></i>Nambur</small>
+                <small class="ms-4"><i class="fa fa-map-marker-alt me-3"></i>Hyderabad</small>
                 <small class="ms-4"><i class="fa fa-envelope me-3"></i>info@student.in</small>
-                <small class="ms-4"><i class="fa fa-phone-alt me-3"></i>+91 99******99</small>
+                <small class="ms-4"><i class="fa fa-phone-alt me-3"></i>+91 99**** ***99</small>
                 <div class="ms-3 d-flex">
                     <a class="btn btn-sm-square btn-light text-primary rounded-circle ms-2" href=""><i
                             class="fab fa-facebook-f"></i></a>
@@ -72,7 +72,7 @@
     <div class="container">
         <nav class="navbar navbar-expand-lg bg-white navbar-light p-lg-0">
             <a href="index.html" class="navbar-brand d-lg-none">
-                <h1 class="fw-bold m-0">Oil Spill Detection</h1>
+                <h1 class="fw-bold m-0">GrowMark</h1>
             </a>
             <button type="button" class="navbar-toggler me-0" data-bs-toggle="collapse"
                 data-bs-target="#navbarCollapse">
@@ -165,7 +165,6 @@
     .fade-in {
         animation: fadeIn 1s ease-in;
     }
-    
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -180,7 +179,7 @@
                 <canvas id="lineChart" width="550" height="300" data-accuracy="99.67"></canvas>
             </div>
         </div>
-        <div class="w-500 col-lg-6 hover-container mb-4">
+        <div class="col-md-6 hover-container mb-4">
             <div class="details-container">
                 <h2>Model Details</h2>
                 <hr>
@@ -188,8 +187,8 @@
                 <hr>
                 {% if result.predicted_class is not None %}
                     {% if result.predicted_class == 1 %}
-                        <h4 class="oil-spill" style="color: hsl(354, 72%, 51%)">Detected Class: <b class="oil-spill">Oil Spill</b></h4>
-                        <script>
+                        <h4 style="color: #dc3545;">Predicted Class: <b>Oil Spill</b></h4>
+                         <script>
                             let prediction_voice1 = "Oil spill Detected"
                             speakResult(prediction_voice1)
                             function speakResult(result) {
@@ -200,7 +199,7 @@
                     }
                         </script>
                     {% elif result.predicted_class == 0 %}
-                        <h4 style="color: #28a745">Detected Class: <b>No Oil Spill Detected</b></h4>
+                        <h4 style="color: #28a745;">Predicted Class: <b>Not an Oil Spill</b></h4>
                         <script>
                             let prediction_voice = "No Oil spill Detected"
                             speakResult(prediction_voice)
@@ -212,20 +211,23 @@
                     }
                         </script>
                     {% else %}
-                        <h4>Detected Class: <b>{{ result.predicted_class }}</b></h4>
+                        <h4>Predicted Class: <b>{{ result.predicted_class }}</b></h4>
                     {% endif %}
-                    
+
                     <p>Image URL: <a href="{{ uploaded_image_url }}" target="_blank">View Image</a></p>
-                    
-                    <!-- {% if pdf_url %} -->
+
+                    {% if pdf_url %}
                         <a href="{{ pdf_url }}" download="prediction_result.pdf" class="btn btn-success mt-3">
                             Download PDF
                         </a>
-                    <!-- {% endif %} -->
+                    {% endif %}
                 {% else %}
                     <p>{{ result.message }}</p>
                 {% endif %}
-                
+
+
+            </div>
+            <div>
                 {% if messages %}
                     {% for message in messages %}
                         <p class="alert alert-info">{{ message }}</p>
@@ -236,32 +238,47 @@
     </div>
 
     <div class="row mt-4">
-        <div class="col-md-4 hover-container mb-4">
-            <div class="image-container">
-                <h3>Original Image</h3>
-                <img src="{{ uploaded_image_url }}" alt="Original Image" class="img-fluid">
+            <div class="col-md-4 hover-container mb-4">
+                <div class="image-container">
+                    <h3>Original Image</h3>
+                    <img src="{{ uploaded_image_url }}" alt="Original Image" class="img-fluid">
+                </div>
             </div>
-        </div>
-        <div class="col-md-4 hover-container mb-4">
-            <div class="image-container">
-                <h3>RGB Image</h3>
-                <img src="data:image/jpeg;base64,{{ rgb_image_base64 }}" alt="RGB Image" class="img-fluid">
+            <div class="col-md-4 hover-container mb-4">
+                <div class="image-container">
+                    <h3>RGB Image</h3>
+                    <img src="data:image/jpeg;base64,{{ rgb_image_base64 }}" alt="RGB Image" class="img-fluid">
+                </div>
             </div>
-        </div>
-        <div class="col-md-4 hover-container mb-4">
-            <div class="image-container">
-                <h3>Segmented Image</h3>
-                <img src="data:image/jpeg;base64,{{ segmented_image_base64 }}" alt="Segmented Image" class="img-fluid">
+
+
+            <div class="col-md-4 hover-container mb-4">
+
+                    <div class="image-container">
+                        <h3>Infrared Image</h3>
+                        <img src="data:image/jpeg;base64,{{ segmented_image_base64 }}" alt="Segmented Image" class="img-fluid">
+                    </div>
+
             </div>
-        </div>
-    </div>
+            {% if result.predicted_class == 1 %}
+            <div class="col-md-12 hover-container mb-4 d-flex align-items-center justify-content-center">
+                <div class="col-md-4 hover-container mb-4">
+                    <div class="image-container">
+                    <h3>Outline Image</h3>
+                    <img src="data:image/jpeg;base64,{{ segment }}" alt="Segmented Image" class="img-fluid">
+                </div>
+                </div>
+            </div>
+            {% endif %}
+        <a href="{% url 'Classification' %}"><button class="btn btn-success">New Detection</button></a>
+</div>
 </div>
 
 <script>
     var accuracyPercentage = parseFloat(document.getElementById('lineChart').getAttribute('data-accuracy'));
 
     var data = {
-        labels: ['0', '10', '20', '30', '40', '50'],
+        labels: ['0', '20', '40', '60', '80', '100'],
         datasets: [{
             label: "Densenet",
             data: [0, accuracyPercentage, accuracyPercentage, accuracyPercentage, accuracyPercentage, accuracyPercentage],
@@ -309,7 +326,7 @@
     });
 </script>
 
-    
+
     <!-- Contact End -->
 
 
@@ -339,7 +356,7 @@
                     <a class="btn btn-link" href="{% url 'user_profile' %}">User Profile</a>
                     <a class="btn btn-link" href="{% url 'Classification' %}">Detection</a>
                     <a class="btn btn-link" href="{% url 'user_feedback' %}">Feedback</a>
-                    
+
                 </div>
                 <div class="col-lg-3 col-md-6">
                     <h4 class="text-white mb-4">Business Hours</h4>
@@ -356,7 +373,7 @@
                         solution dedicated to protecting marine environments by enabling accurate and timely detection of oil spills.
                         Our mission is to leverage cutting-edge technology to mitigate the environmental and economic impact of marine
                         pollution.</p>
-                    
+
                 </div>
             </div>
         </div>
@@ -367,7 +384,7 @@
     <!-- Copyright Start -->
     <div class="container-fluid copyright bg-dark py-4">
         <div class="container text-center">
-            
+
             <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <p class="mb-0">
@@ -424,7 +441,7 @@
             {% endif %}
         {% endfor %}
     {% endif %}
-    
+
     <!-- JavaScript Libraries -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>
@@ -447,14 +464,14 @@
                 button: "OK",
               });
             </script>
-          
+
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.WARNING %}
             <script>swal({
                 title: "Warning :)",
                 text: "{{message}}",
                 icon: "warning",
                 button: "OK",
-              
+
               });
             </script>
           {% elif message.level == DEFAULT_MESSAGE_LEVELS.INFO %}

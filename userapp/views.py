@@ -155,10 +155,23 @@ from mainapp.models import *
 from tensorflow.keras.models import load_model
 from tensorflow.keras.preprocessing import image
 import numpy as np
+
+
+
+
+
+
+import cv2
+import os
+from PIL import Image
+import matplotlib.pyplot as plt
+from ultralytics import YOLO
+
 from tensorflow.keras.applications.densenet import preprocess_input
 
 # Assuming you already have a loaded model, e.g., `model`
 model = load_model('Oil Spil Dataset/oil_densenet.h5')
+model1 = YOLO('Oil Spil Dataset/best.pt')
 
 def predictionss(image_path):
     """This function makes predictions on the image at the provided path."""
@@ -203,15 +216,41 @@ def predictionss(image_data):
     pred = np.argmax(model.predict(img_array), axis=1)
     return pred[0]
 
+
+def live_predictionss(image_data):
+    """This function makes predictions on the image provided."""
+    try:
+        # Decode the image from base64
+        img_data = base64.b64decode(image_data.split(',')[1])
+        img = Image.open(io.BytesIO(img_data))
+
+        # Resize the image
+        img = img.resize((224, 224))
+
+        # Convert to array and preprocess
+        img_array = np.array(img)
+        img_array = np.expand_dims(img_array, axis=0)
+        img_array = preprocess_input(img_array)  # Normalize if required
+
+        # Predict the class
+        pred = np.argmax(model.predict(img_array), axis=1)
+        return int(pred[0])  # Ensure JSON serializable response
+
+    except Exception as e:
+        print("Prediction Error:", e)
+        return -1
+
+
 def live_camera_prediction(request):
     """Handle the live cam image predictions."""
-    if request.method == "POST":
+    if request.method == "GET" or request.method=="POST":
         # Receive the image data from the webcam
         data = json.loads(request.body)  # Ensure json is imported
         image_data = data.get('image')
+        print("reached live camm")
         
         # Make prediction
-        predicted_class = predictionss(image_data)
+        predicted_class = live_predictionss(image_data)
 
         # If oil spill detected, send email alert
         if predicted_class == 1:
@@ -364,9 +403,40 @@ def generate_rgb_image(image_path):
     cv2.imwrite(rgb_image_path, color_image)
     return rgb_image_path
 
+
+from PIL import Image
+def oilsegment(image_path):
+    results = model1.predict(image_path, conf=0.1, save=False)
+    result_image = results[0].plot() 
+
+    # Convert OpenCV BGR image to RGB
+    result_pil = Image.fromarray(cv2.cvtColor(result_image, cv2.COLOR_BGR2RGB))
+
+    # Define output directory and ensure it exists
+    output_dir = os.path.join(settings.MEDIA_ROOT, 'inference_results/')
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Extract filename and ensure a valid extension
+    base_filename = os.path.basename(image_path)  # Get filename with extension
+    filename, ext = os.path.splitext(base_filename)  # Split name and extension
+    if not ext:  
+        ext = ".jpg"  # Default to .jpg if no extension
+
+    # Define full output path
+    output_path = os.path.join(output_dir, f"{filename}_result{ext}")
+
+    # Save the processed image
+    result_pil.save(output_path)
+
+    print(f"Result saved at: {output_path}")
+    return output_path
+
+
 def generate_segmented_image(image_path):
     image = cv2.imread(image_path)
-    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+    gray_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+    r, g, b = cv2.split(gray_image)
+    gray_image = cv2.merge([r, r, g])
     _, binary_image = cv2.threshold(gray_image, 127, 255, cv2.THRESH_BINARY)
     segmented_image_path = os.path.splitext(image_path)[0] + '_segmented.jpg'
     cv2.imwrite(segmented_image_path, binary_image)
@@ -375,10 +445,13 @@ def generate_segmented_image(image_path):
 def encode_image(image_path):
     with open(image_path, "rb") as img_file:
         return base64.b64encode(img_file.read()).decode('utf-8')
+    
+
 
 def Classification(request):
     if request.method == "POST" and 'image' in request.FILES:
         uploaded_image = request.FILES['image']
+        print(uploaded_image)
         file_path = default_storage.save(uploaded_image.name, uploaded_image)
         image_path = os.path.join(settings.MEDIA_ROOT, file_path)
         uploaded_image_url = default_storage.url(file_path)
@@ -389,11 +462,13 @@ def Classification(request):
         # Generate processed images
         rgb_image_path = generate_rgb_image(image_path)
         segmented_image_path = generate_segmented_image(image_path)
+        outline_path = oilsegment(image_path)
 
         # Convert images to base64 for display
         uploaded_image_base64 = encode_image(image_path)
         rgb_image_base64 = encode_image(rgb_image_path)
         segmented_image_base64 = encode_image(segmented_image_path)
+        outline_image_base64 = encode_image(outline_path)
 
         # Determine prediction result
         prediction_text = "Oil Spill Detected" if predicted_class == 1 else "No Oil Spill Detected"
@@ -423,9 +498,8 @@ def Classification(request):
             else:
                 messages.error(request, "You must be logged in to receive email alerts.")
         email = user.user_email
-        print(email)
         pdf_file_path = generate_pdf(predicted_class, email, uploaded_image_url)
-        print(pdf_file_path)
+        
         # Save the prediction result in the database
         prediction_record = PredictionResult(
             predicted_class=predicted_class,
@@ -453,7 +527,7 @@ def Classification(request):
         messages.warning(request, f'Alert! Predicted class: {predicted_class}. {prediction_text}')
         result = request.session.get('result', {"message": "No result available"})
         prediction_text = "Oil Spill Detected" if result.get('predicted_class') == 1 else "No Oil Spill Detected"
-        return render(request,'user/Prediction-result.html', {'result':result,'prediction': prediction_text,'uploaded_image_url':uploaded_image_url, 'rgb_image_base64':rgb_image_base64, 'segmented_image_base64' : segmented_image_base64, 'pdf_url': pdf_url,})
+        return render(request,'user/Prediction-result.html', {'result':result,'prediction': prediction_text,'uploaded_image_url':uploaded_image_url, 'rgb_image_base64':rgb_image_base64, 'segmented_image_base64' : segmented_image_base64, 'pdf_url': pdf_url,'segment':outline_image_base64})
     
     return render(request, 'user/Prediction.html')
 

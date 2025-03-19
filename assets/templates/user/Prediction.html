@@ -130,7 +130,7 @@
                             <input type="file" name="image" id="video" required>
                         </div>
                         
-                        <button type="submit" class="btn btn-primary mt-4 w-100">Upload and Predict</button>
+                        <button type="submit" class="btn btn-primary mt-4 w-100">Upload and Detect</button>
                     </form>
                 
                     <!-- Live Camera Section -->
@@ -151,18 +151,18 @@
                     const ctx = canvas.getContext("2d");
                     let predictionResult = "No Prediction Yet";
                     let mediaStream = null; // Store the media stream
-                
+
                     // Function to start the webcam feed
                     startLiveCamBtn.addEventListener('click', async function () {
                         try {
                             startLiveCamBtn.style.display = 'none'; // Hide Start button
                             exitLiveCamBtn.style.display = 'block'; // Show Exit button
                             liveCamDiv.style.display = 'block';
-                
+
                             // Access the webcam
                             mediaStream = await navigator.mediaDevices.getUserMedia({ video: true });
                             videoFeed.srcObject = mediaStream;
-                
+
                             // Continuously send frames to the server for prediction
                             setInterval(() => {
                                 if (mediaStream) {
@@ -170,7 +170,7 @@
                                     predictOilSpill(canvas.toDataURL('image/jpeg'));
                                 }
                             }, 1000); // Process every second
-                
+
                             // Announce the result every 10 seconds
                             setInterval(() => {
                                 if (mediaStream) speakResult(predictionResult);
@@ -179,24 +179,24 @@
                             console.error("Error accessing webcam:", err);
                         }
                     });
-                
+
                     // Function to stop the webcam feed
                     exitLiveCamBtn.addEventListener('click', function () {
                         if (mediaStream) {
                             // Stop all tracks in the media stream
                             mediaStream.getTracks().forEach(track => track.stop());
                             mediaStream = null;
-                
+
                             // Hide the live cam interface
                             liveCamDiv.style.display = 'none';
                             exitLiveCamBtn.style.display = 'none';
                             startLiveCamBtn.style.display = 'block';
                         }
                     });
-                
+
                     // Function to send the image to the server for prediction
                     function predictOilSpill(imageData) {
-                        fetch('/predict-oil-spill/', {
+                        fetch('/prediction/', {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
@@ -221,7 +221,7 @@
                         })
                         .catch(err => console.error("Error predicting oil spill:", err));
                     }
-                
+
                     // Function to announce the prediction result
                     function speakResult(result) {
                         const msg = new SpeechSynthesisUtterance();
