@@ -80,16 +80,16 @@ from django.db import models
 
 from django.db import models
 
-class RANDOM_ALGO(models.Model):
-    S_NO = models.AutoField(primary_key=True)
-    Accuracy = models.TextField(max_length=100)
-    Precession = models.TextField(max_length=100)
-    F1_Score = models.TextField(max_length=100)
-    Recall = models.TextField(max_length=100)
-    Name = models.TextField(max_length=100)
+# class RANDOM_ALGO(models.Model):
+#     S_NO = models.AutoField(primary_key=True)
+#     Accuracy = models.TextField(max_length=100)
+#     Precession = models.TextField(max_length=100)
+#     F1_Score = models.TextField(max_length=100)
+#     Recall = models.TextField(max_length=100)
+#     Name = models.TextField(max_length=100)
 
-    class Meta:
-        db_table = 'RANDOM_ALGO'
+#     class Meta:
+#         db_table = 'RANDOM_ALGO'
 
 class DECISION_ALGO(models.Model):
     S_NO = models.AutoField(primary_key=True)

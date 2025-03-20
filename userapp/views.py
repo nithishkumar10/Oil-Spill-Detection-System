@@ -152,8 +152,8 @@ from django.core.mail import send_mail
 from django.conf import settings
 from mainapp.models import *
 # Load the model and other necessary imports
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing import image
 import numpy as np
 
 
@@ -167,7 +167,7 @@ from PIL import Image
 import matplotlib.pyplot as plt
 from ultralytics import YOLO
 
-from tensorflow.keras.applications.densenet import preprocess_input
+# from tensorflow.keras.applications.densenet import preprocess_input
 
 # Assuming you already have a loaded model, e.g., `model`
 model = load_model('Oil Spil Dataset/oil_densenet.h5')
@@ -187,7 +187,7 @@ from django.core.files.base import ContentFile
 from django.core.mail import send_mail
 from keras.preprocessing import image
 import numpy as np
-from tensorflow.keras.models import load_model
+# from tensorflow.keras.models import load_model
 from PIL import Image
 import datetime
 import os
@@ -382,8 +382,8 @@ from django.core.files.storage import default_storage
 from django.conf import settings
 from django.contrib import messages
 from django.core.mail import send_mail
-from tensorflow.keras.models import load_model
-from tensorflow.keras.preprocessing import image
+# from tensorflow.keras.models import load_model
+# from tensorflow.keras.preprocessing import image
 from .models import PredictionResult
 
 # Load the model
@@ -428,7 +428,7 @@ def oilsegment(image_path):
     # Save the processed image
     result_pil.save(output_path)
 
-    print(f"Result saved at: {output_path}")
+    # print(f"Result saved at: {output_path}")
     return output_path
 
 
@@ -451,7 +451,7 @@ def encode_image(image_path):
 def Classification(request):
     if request.method == "POST" and 'image' in request.FILES:
         uploaded_image = request.FILES['image']
-        print(uploaded_image)
+        # print(uploaded_image)
         file_path = default_storage.save(uploaded_image.name, uploaded_image)
         image_path = os.path.join(settings.MEDIA_ROOT, file_path)
         uploaded_image_url = default_storage.url(file_path)
@@ -521,7 +521,7 @@ def Classification(request):
         pdf_url = None
         if prediction:
             pdf_url = default_storage.url(prediction.pdf_file)  # Get the URL for downloading the PDF
-            print(pdf_url)
+            # print(pdf_url)
 
         
         messages.warning(request, f'Alert! Predicted class: {predicted_class}. {prediction_text}')
@@ -628,7 +628,7 @@ def user_login(req):
     if req.method == "POST":
         user_email = req.POST.get("email")
         user_password = req.POST.get("password")
-        print(user_email, user_password)
+        # print(user_email, user_password)
 
         try:
             users_data = UserModel.objects.filter(user_email=user_email)
