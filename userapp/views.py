@@ -166,12 +166,15 @@ import os
 from PIL import Image
 import matplotlib.pyplot as plt
 from ultralytics import YOLO
-
+import pickle
 # from tensorflow.keras.applications.densenet import preprocess_input
-
+import torch
 # Assuming you already have a loaded model, e.g., `model`
 model = load_model('Oil Spil Dataset/oil_densenet.h5')
-model1 = YOLO('Oil Spil Dataset/best.pt')
+
+model1 = YOLO('Oil Spil Dataset/best.pt').to('cpu')
+
+
 
 def predictionss(image_path):
     """This function makes predictions on the image at the provided path."""
