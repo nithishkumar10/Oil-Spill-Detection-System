@@ -278,10 +278,10 @@
     var accuracyPercentage = parseFloat(document.getElementById('lineChart').getAttribute('data-accuracy'));
 
     var data = {
-        labels: ['0', '20', '40', '60', '80', '100'],
+        labels: ['0', '10', '20', '30', '40', '50'],
         datasets: [{
             label: "Densenet",
-            data: [0, accuracyPercentage, accuracyPercentage, accuracyPercentage, accuracyPercentage, accuracyPercentage],
+            data: [90, 98.6, 99.4, 99.8, 99.3, accuracyPercentage],
             fill: false,
             borderColor: "rgb(75, 192, 192)",
             lineTension: 0.1
@@ -302,7 +302,8 @@
                     display: true,
                     text: 'Accuracy'
                 },
-                beginAtZero: true
+                beginAtZero: false,
+		min:90
             }
         },
         animation: {
